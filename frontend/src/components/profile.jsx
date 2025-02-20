@@ -1,6 +1,6 @@
 import React from "react";
 import TaskList from "./tasklist";
-import CircularProgressTrackers from "./progresstrackers";
+// import CircularProgressTrackers from "./progresstrackers";
 import ContactInfo from "./contactInfo";
 import ProfileDetails from "./profiledetails";
 import Header from "./header";
@@ -19,7 +19,7 @@ const Profile = () => {
             <ContactInfo />
           </div>
           <div className="grid grid-rows-2 gap-6">
-            <CircularProgressTrackers />
+            {/* <CircularProgressTrackers /> */}
             <TaskList />
           </div>
         </div>

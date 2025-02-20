@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "./button";
-import GroupCalendar from "./GroupCalendar";
-import Leaderboard from "./GroupLeaderBoard";
+import GroupCalendar from "./GroupCalendar.jsx";
+import Leaderboard from "./GroupLeaderBoard.jsx";
 
 export default function GroupDashboard() {
   const [groupName] = useState("Study Group");
