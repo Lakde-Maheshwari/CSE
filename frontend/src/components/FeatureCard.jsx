@@ -6,13 +6,16 @@ const FeatureCard = ({ icon, title, description }) => {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center space-y-4"
+      whileHover={{ 
+        scale: 1.05, 
+        boxShadow: "0px 0px 20px rgba(59, 130, 246, 0.5)" 
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col items-center text-center space-y-4 transition-all"
     >
       <div className="text-4xl text-blue-500">{icon}</div>
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="text-lg font-semibold text-white">{title}</h3>
+      <p className="text-gray-400">{description}</p>
     </motion.div>
   );
 };

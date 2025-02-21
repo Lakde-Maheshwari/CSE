@@ -2,9 +2,9 @@ import React from "react";
 
 const ProfileDetails = () => {
   return (
-    <div className="w-full max-w-md bg-gray-800/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl border border-gray-600 text-center transform transition-all hover:shadow-2xl">
+    <div className="w-full max-w-lg bg-gray-800/80 backdrop-blur-lg p-8 rounded-2xl text-center transform transition-all hover:shadow-2xl min-h-[450px] flex flex-col items-center justify-center">
       {/* Profile Picture */}
-      <div className="relative w-24 h-24 mx-auto mb-4">
+      <div className="relative w-48 h-48 mb-6"> {/* Increased image size */}
         <img
           src="/myphoto.jpg" // Replace with actual profile picture URL
           alt="Profile"
@@ -13,27 +13,8 @@ const ProfileDetails = () => {
       </div>
 
       {/* Name & Role */}
-      <h2 className="text-2xl font-semibold text-white">John Doe</h2>
-      <p className="text-gray-400 text-sm">Software Engineer | Tech Enthusiast</p>
-
-      {/* Stats Section */}
-      <div className="mt-4 flex justify-around text-sm text-gray-300">
-        <div className="flex flex-col items-center">
-          <span className="text-xl font-bold text-white">120</span>
-          <span>Tasks Completed</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-xl font-bold text-white">15</span>
-          <span>Projects</span>
-        </div>
-      </div>
-
-      {/* Profile Actions */}
-      {/* <div className="mt-6 space-x-4">
-        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition-all rounded-lg text-white font-medium shadow-md">
-          Edit Profile
-        </button>
-      </div> */}
+      <h2 className="text-3xl font-semibold text-white">John Doe</h2>
+      <p className="text-gray-400 text-lg mt-2">Software Engineer | Tech Enthusiast</p>
     </div>
   );
 };

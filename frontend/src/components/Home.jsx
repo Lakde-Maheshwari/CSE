@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import FeatureGrid from "../components/FeatureCard";
 import TestimonialFooter from "../components/Footer";
 import Button from "./button";
@@ -8,6 +9,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [meetingLink, setMeetingLink] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false); // Track focus state
 
   // Create New Meeting
   const handleCreateMeeting = async () => {
@@ -65,14 +67,22 @@ const Home = () => {
           Join collaborative study groups, stay consistent with daily streaks, and make learning interactive with AI-powered tools.
         </p>
         
-        {/* Meeting Input Field */}
-        <input
-          type="text"
-          placeholder="Enter Meeting Link"
-          value={meetingLink}
-          onChange={(e) => setMeetingLink(e.target.value)}
-          className="w-80 p-2 mb-4 text-white rounded-lg border border-gray-300 bg-gray-800"
-        />
+        {/* Meeting Input Field with Scale-Up Animation */}
+        <motion.div
+          animate={{ scale: isFocused ? 1.1 : 1 }} // Scale up when focused
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-80"
+        >
+          <input
+            type="text"
+            placeholder="Enter Meeting Link"
+            value={meetingLink}
+            onChange={(e) => setMeetingLink(e.target.value)}
+            onFocus={() => setIsFocused(true)} // Set focus state
+            onBlur={() => setIsFocused(false)} // Reset focus state
+            className="w-full p-3 mb-4 text-white rounded-lg border border-gray-300 bg-gray-800 focus:outline-none transition-all"
+          />
+        </motion.div>
         
         {/* Buttons Container */}
         <div className="flex space-x-4">

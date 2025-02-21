@@ -67,7 +67,7 @@ const TaskForm = ({ onSubmit }) => {
               </select>
             </label>
           </div>
-          
+
           <div className="mt-5 flex justify-center">
             <Button label="Add Task" type="submit" />
           </div>
@@ -80,18 +80,21 @@ const TaskForm = ({ onSubmit }) => {
           src="/task image.jpg"
           alt="Task Illustration"
           className="max-w-full max-h-full rounded-lg shadow-lg"
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: 1.5, 
+            ease: "easeInOut",
+          }}
           whileHover={{
-            rotateX: [0, 15, -15, 10, -10, 0], // Tilt forward & backward
-            rotateY: [0, 10, -10, 5, -5, 0], // Rotate side to side
-            scale: 1.1, // Slight scale-up
+            rotateX: [0, 15, -15, 10, -10, 0], 
+            rotateY: [0, 10, -10, 5, -5, 0], 
+            scale: 1.1, 
             filter: "drop-shadow(0px 0px 15px rgba(255,255,255,0.6))",
           }}
-          transition={{
-            duration: 1.5, // Smooth looping effect
-            ease: "easeInOut",
-            repeat: Infinity, // Keep moving continuously while hovered
-          }}
         />
+
       </div>
     </div>
   );
