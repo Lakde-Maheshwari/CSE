@@ -15,7 +15,7 @@ const Profile = () => {
         <Header />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-gray-700 bg-gray-800 rounded-xl shadow-2xl">
           <div className="p-6 bg-gray-700 flex flex-col items-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
-            <Profile  Details />
+            <ProfileDetails />
             <ContactInfo />
           </div>
           <div className="grid grid-rows-2 gap-6">

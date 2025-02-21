@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Button from "./button";
 import { motion } from "framer-motion";
-
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
