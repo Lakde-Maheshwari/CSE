@@ -1,0 +1,46 @@
+/* Custom styling for React Calendar */
+.custom-calendar {
+  background-color: #1f2937; /* Tailwind gray-800 */
+  color: white; /* Text color */
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  width: 100%;
+}
+
+/* Change navigation buttons color */
+.custom-calendar .react-calendar__navigation button {
+  color: white;
+  background-color: transparent;
+}
+
+/* Style the calendar days */
+.custom-calendar .react-calendar__tile {
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* Hover effect */
+.custom-calendar .react-calendar__tile:hover {
+  background-color: #374151; /* Tailwind gray-700 */
+}
+
+/* Active selected date */
+.custom-calendar .react-calendar__tile--active {
+  background-color: #4b5563; /* Tailwind gray-600 */
+  color: white;
+  font-weight: bold;
+}
+
+/* Change weekday names color */
+.custom-calendar .react-calendar__month-view__weekdays {
+  color: white;
+}
+
+/* Hide the calendar border */
+.custom-calendar,
+.custom-calendar * {
+  border: none !important;
+}

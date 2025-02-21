@@ -14,7 +14,7 @@ const Profile = () => {
       <div className="flex flex-col w-3/4 p-6 space-y-6">
         <Header />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-gray-700 bg-gray-800 rounded-xl shadow-2xl">
-          <div className="p-6 bg-gray-700 flex flex-col items-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
+          <div className="p-6  flex flex-col items-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
             <ProfileDetails />
             <ContactInfo />
           </div>
