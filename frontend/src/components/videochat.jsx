@@ -19,7 +19,7 @@ const VideoChat = () => {
       <div className="text-white text-2xl">
         {/* <h1 className="text-white">This is videochat page</h1> */}
         <video
-          className="w-full h-full bg-black"
+          className="w-full h-140 bg-black"
           src=""
           id="user-1"
           autoPlay

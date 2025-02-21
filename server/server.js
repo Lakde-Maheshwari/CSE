@@ -11,6 +11,7 @@ const meetingRoutes = require('./routes/meetingRoutes');
 const rewardRoutes = require('./routes/rewardRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes'); // ✅ Import leaderboard routes
+const profileRoutes = require("./routes/profileRoutes");
 
 const Leaderboard = require('./models/leaderboard'); // ✅ Import the leaderboard model
 
