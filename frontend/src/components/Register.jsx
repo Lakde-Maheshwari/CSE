@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
 import Button from "./button";
+import {motion} from "framer-motion";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +31,26 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      {/* right side robot image */}
+      <div className="hidden md:flex w-1/2 items-center justify-center bg-gray-900">
+        <motion.img
+          src="/Chatbot image.png"
+          alt="Robot"
+          className="w-1/2 max-h-[80%] object-contain"
+          whileHover={{
+            rotateX: [0, 15, -15, 10, -10, 0], // Tilt forward & backward
+            rotateY: [0, 10, -10, 5, -5, 0], // Rotate side to side
+            scale: 1.1, // Slight scale-up
+            filter: "drop-shadow(0px 0px 15px rgba(255,255,255,0.6))",
+          }}
+          transition={{
+            duration: 1.5, // Smooth looping effect
+            ease: "easeInOut",
+            repeat: Infinity, // Keep moving continuously while hovered
+          }}
+        />
+      </div>
+      {/* sign up form */}
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md animate-fadeIn backdrop-filter backdrop-blur-sm">
         {error && <p className="text-red-500">{error}</p>}
         <h2 className="text-3xl font-bold text-center text-white mb-6">Sign Up</h2>
