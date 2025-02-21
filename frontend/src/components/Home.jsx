@@ -1,32 +1,94 @@
-import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUsers, FaChalkboardTeacher, FaTrophy, FaRocket } from "react-icons/fa";
-import FeatureGrid from "./FeatureCard";
-import TestimonialFooter from "./Footer";
+import FeatureGrid from "../components/FeatureCard";
+import TestimonialFooter from "../components/Footer";
+import Button from "./button";
+
 const Home = () => {
   const navigate = useNavigate();
+  const [meetingLink, setMeetingLink] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleJoinClick = () => {
-    navigate("/join");
+  // Create New Meeting
+  const handleCreateMeeting = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token"); // Get token from localStorage
+
+      if (!token) {
+        alert("Please log in first.");
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch("http://localhost:6471/api/create-meeting", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setMeetingLink(data.meetingId);
+        alert(`Meeting Created! Link: ${window.location.origin}/meet/${data.meetingId}`);
+      } else {
+        alert("Error: " + data.message);
+      }
+    } catch (error) {
+      console.error("Error creating meeting:", error);
+      alert("Something went wrong.");
+    }
+    setLoading(false);
+  };
+
+  // Join a meeting
+  const handleJoinMeet = () => {
+    if (meetingLink.trim()) {
+      navigate(`/join/${meetingLink.trim()}`);
+    } else {
+      alert("Please enter a valid meeting link");
+    }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white w-full min-w-full overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-gray-900 text-white w-full overflow-x-hidden">
       {/* Hero Section */}
       <div className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 w-full">
-        <h1 className="text-5xl font-bold mb-4">Study Smarter, Together! 🚀</h1>
+        <h1 className="text-5xl font-bold mb-4 mt-4">Study Smarter, Together! 🚀</h1>
         <p className="text-lg text-gray-300 mb-6 max-w-2xl">
           Join collaborative study groups, stay consistent with daily streaks, and make learning interactive with AI-powered tools.
         </p>
-        <button
-          onClick={handleJoinClick}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition"
-        >
-          Create New Meet +
-        </button>
-
+        
+        {/* Meeting Input Field */}
+        <input
+          type="text"
+          placeholder="Enter Meeting Link"
+          value={meetingLink}
+          onChange={(e) => setMeetingLink(e.target.value)}
+          className="w-80 p-2 mb-4 text-white rounded-lg border border-gray-300 bg-gray-800"
+        />
+        
+        {/* Buttons Container */}
+        <div className="flex space-x-4">
+          {/* Create Meeting Button */}
+          <button onClick={handleCreateMeeting} disabled={loading}>
+            <Button label={loading ? "Creating..." : "Create New Meet +"} />
+          </button>
+          
+          {/* Join Meeting Button */}
+          <button onClick={handleJoinMeet}>
+            <Button label="Join" />
+          </button>
+        </div>
+        
         {/* Features Section */}
-       <FeatureGrid />
+        <FeatureGrid />
       </div>
 
       {/* Testimonials Section */}  

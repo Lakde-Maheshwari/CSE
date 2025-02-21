@@ -1,24 +1,30 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Button = ({ label, onClick, color = "blue" }) => {
-    const colors = {
-        blue: "bg-blue-500",
-        green: "bg-green-500",
-        red: "bg-red-500",
-        yellow: "bg-yellow-500",
-        gray: "bg-gray-400",
-        purple: "bg-purple-400",
-        orange: "bg-orange-400",
+const Button = ({ label, onClick, type = "button", to }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (to) {
+            navigate(to);  // Navigate if 'to' prop is provided
+        } else if (onClick) {
+            onClick(); // Otherwise, trigger the provided onClick function
+        }
     };
-    
 
     return (
-        <button 
-            className={`p-2 ${colors[color] || "bg-blue-700"} text-white rounded-md m-3 hover:border-white`} 
-            onClick={onClick}
-        >
-            {label}
-        </button>
+        <div className="relative inline-flex group">
+            <div
+                className="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
+            ></div>
+            <button
+                type={type}
+                onClick={handleClick}
+                className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            >
+                {label}
+            </button>
+        </div>
     );
 };
 

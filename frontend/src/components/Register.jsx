@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
+import Button from "./button";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -17,11 +18,11 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default navigation behavior
     try {
       const data = await registerUser(formData);
       localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/login");
+      navigate("/login"); // Redirect after successful signup
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
     }
@@ -33,14 +34,32 @@ const Signup = () => {
         {error && <p className="text-red-500">{error}</p>}
         <h2 className="text-3xl font-bold text-center text-white mb-6">Sign Up</h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Full Name" className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={handleChange} />
-          <input type="email" name="email" placeholder="Email" className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={handleChange} />
-          <input type="password" name="password" placeholder="Password" className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={handleChange} />
+        {/* ✅ No `onSubmit` on <form>, handled inside <Button> */}
+        <form className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleChange}
+          />
 
-          <button className="w-full bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md font-semibold transition duration-300">
-            Create Account
-          </button>
+          {/* ✅ `to="#"` prevents unwanted navigation, `onClick` handles the form submission */}
+          <Button label="Create Account" to="/" onClick={handleSubmit} />
         </form>
 
         <p className="text-center text-gray-400 mt-4">

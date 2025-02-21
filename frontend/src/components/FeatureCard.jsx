@@ -19,7 +19,7 @@ const FeatureCard = ({ icon, title, description }) => {
 
 const FeatureGrid = () => {
   return (
-    <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-none px-4">
+    <div className="mt-16 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-none px-4">
       <FeatureCard icon={<FaUsers />} title="Real-Time Collaboration" description="Work together with live whiteboards and discussions." />
       <FeatureCard icon={<FaChalkboardTeacher />} title="Interactive Learning" description="Use polls, quizzes, and shared notes to enhance learning." />
       <FeatureCard icon={<FaTrophy />} title="Rewards & Streaks" description="Stay motivated with daily streaks and achievements." />
