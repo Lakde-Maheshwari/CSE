@@ -16,11 +16,7 @@ const profileSchema = new mongoose.Schema({
         type: String, // URL to the profile picture
         default: ''
     },
-    socialLinks: {
-        github: { type: String, default: '' },
-        linkedin: { type: String, default: '' },
-        twitter: { type: String, default: '' }
-    },
+    
     achievements: [{
         title: String,
         date: { type: Date, default: Date.now },
