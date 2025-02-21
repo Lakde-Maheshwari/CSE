@@ -15,6 +15,8 @@ import GroupResources from './components/groupResources.jsx'
 import TaskForm from './components/taskform.jsx'
 import Poll from './components/Poll.jsx'
 import VideoChat from './components/videochat'
+import SummaryComponent from "./components/SummaryComponent";
+import ChatComponent from "./components/ChatComponent";
 
 function App() {
   return (
@@ -34,6 +36,10 @@ function App() {
         <Route path='/poll' element={<Poll />} />
         <Route path='/videochat' element={<VideoChat />} />
         <Route path='/whiteboard' element={<Whiteboard />} />
+
+        {/* ✅ Added AI Feature Routes */}
+        <Route path='/ai/summarize' element={<SummaryComponent />} />
+        <Route path='/ai/chat' element={<ChatComponent />} />
       </Routes>
     </div>
   )
