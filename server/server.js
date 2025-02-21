@@ -10,7 +10,11 @@ const connectDB = require('./config/db');
 const meetingRoutes = require('./routes/meetingRoutes');
 const rewardRoutes = require('./routes/rewardRoutes');
 const aiRoutes = require('./routes/aiRoutes');
-const taskRoutes = require('./routes/taskRoutes');
+//const leaderboardRoutes = require('./routes/leaderboard');
+//const groupRoutes = require('./routes/groupRoutes');
+//const pollRoutes = require('./routes/pollRoutes');
+//const groupRoutes = require('./routes/groupRoutes'); 
+//const chatRoutes = require('./routes/chatRoutes');
 
 dotenv.config();
 connectDB();
@@ -28,8 +32,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/meeting', meetingRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/ai', aiRoutes);
-// app.use('/api/tasks', taskRoutes);
-// app.use('/api/group', groupRoute);  
+//app.use('/api', leaderboardRoutes);
+//app.use('/api/group', groupRoutes);
+//app.use('/api/poll', pollRoutes);
+//app.use('/api/chat', chatRoutes);
+
 
 const polls = {}; // Store polls for each room
 
