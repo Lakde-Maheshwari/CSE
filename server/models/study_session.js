@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const studySessionSchema = new mongoose.Schema({
     host: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // User who created the session
+        ref: 'user', // User who created the session
         required: true
     },
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' // Users who joined the session
+        ref: 'user' // Users who joined the session
     }],
     startTime: {
         type: Date,

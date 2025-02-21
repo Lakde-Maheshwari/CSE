@@ -31,7 +31,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/meeting', meetingRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/ai', aiRoutes);
-app.use('/api/leaderboard', leaderboardRoutes); // ✅ Add leaderboard route
+app.use('/api/leaderboard', leaderboardRoutes); 
+app.use('/api/profile',profileRoutes);
+
 
 const polls = {}; // Store polls for each room
 

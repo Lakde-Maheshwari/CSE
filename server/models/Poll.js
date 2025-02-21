@@ -20,7 +20,7 @@ const pollSchema = new mongoose.Schema({
   [pollOptionSchema],
   createdBy: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
+    ref: 'user', 
     required: true
  },
   group: { 

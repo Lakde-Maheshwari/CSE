@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Linking to the User model
+        ref: 'user', // Linking to the User model
         required: true,
         unique: true
     },

@@ -87,14 +87,9 @@ const Home = () => {
         {/* Buttons Container */}
         <div className="flex space-x-4">
           {/* Create Meeting Button */}
-          <button onClick={handleCreateMeeting} disabled={loading}>
-            <Button label={loading ? "Creating..." : "Create New Meet +"} />
-          </button>
-          
+            <Button label={loading ? "Creating..." : "Create New Meet +"} onClick={handleCreateMeeting} to={"/join"}/>
           {/* Join Meeting Button */}
-          <button onClick={handleJoinMeet}>
-            <Button label="Join" />
-          </button>
+            <Button label="Join" onClick={handleJoinMeet} to={"/join"}/>
         </div>
         
         {/* Features Section */}
