@@ -1,16 +1,32 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Button from "./button";
 import { useNavigate } from "react-router-dom";
 
 const TaskList = () => {
   const navigate = useNavigate();
-  const HandleButtonClick = () => {
-    navigate('/taskform');
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:6471/api/tasks")
+      .then(response => setTasks(response.data))
+      .catch(error => console.error("Error fetching tasks:", error));
+  }, []);
+
+  const handleButtonClick = () => {
+    navigate("/taskform");
+  };
+
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:6471/api/tasks/${id}`)
+      .then(() => setTasks(tasks.filter(task => task._id !== id)))
+      .catch(error => console.error("Error deleting task:", error));
   };
 
   const statusColors = {
     Completed: "text-green-400",
     Pursued: "text-orange-400",
-    Pending: "text-red-400"
+    Pending: "text-red-400",
   };
 
   return (
@@ -18,7 +34,7 @@ const TaskList = () => {
       {/* Header Section with Button */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Your Tasks</h2>
-        <Button label="+ Add New Task" onClick={HandleButtonClick} />
+        <Button label="+ Add New Task" onClick={handleButtonClick} />
       </div>
 
       {/* Table Container */}
@@ -29,20 +45,32 @@ const TaskList = () => {
               <th className="border border-gray-600 p-3 text-left">Date</th>
               <th className="border border-gray-600 p-3 text-left">Status</th>
               <th className="border border-gray-600 p-3 text-left">Task Name</th>
+              <th className="border border-gray-600 p-3 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {[{ date: "2025-02-03", status: "Completed", name: "Task 1" }, { date: "2025-02-04", status: "Pursued", name: "Task 2" }, { date: "2025-02-05", status: "Pending", name: "Task 3" }].map(
-              (task, index) => (
-                <tr key={index} className="border border-gray-700 bg-gray-800 hover:bg-gray-700 transition duration-300">
-                  <td className="border border-gray-600 p-3">{task.date}</td>
-                  <td className={`border border-gray-600 p-3 font-semibold ${statusColors[task.status]}`}>
-                    {task.status}
-                  </td>
-                  <td className="border border-gray-600 p-3">{task.name}</td>
-                </tr>
-              )
-            )}
+            {tasks.map((task) => (
+              <tr
+                key={task._id}
+                className="border border-gray-700 bg-gray-800 hover:bg-gray-700 transition duration-300"
+              >
+                <td className="border border-gray-600 p-3">{task.date}</td>
+                <td
+                  className={`border border-gray-600 p-3 font-semibold ${statusColors[task.status]}`}
+                >
+                  {task.status}
+                </td>
+                <td className="border border-gray-600 p-3">{task.name}</td>
+                <td className="border border-gray-600 p-3">
+                  <button
+                    onClick={() => handleDelete(task._id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

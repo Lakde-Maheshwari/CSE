@@ -7,7 +7,7 @@ const Sidebar = () => {
     window.location.href = "/group";
   }
   return (
-    <div className="w-1/4 bg-gray-900 bg-opacity-90 backdrop-blur-lg p-6 text-white rounded-xl shadow-lg h-auto border border-gray-800">
+    <div className="w-96 bg-gray-900 bg-opacity-90 backdrop-blur-lg p-6 text-white rounded-xl shadow-lg h-auto border border-gray-800">
       <div className="flex flex-col space-y-4">
         {/* Sidebar Title with Icon */}
         <div className="flex items-center space-x-2">
