@@ -18,7 +18,7 @@ const TaskList = () => {
       {/* Header Section with Button */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Your Tasks</h2>
-        <Button label="+ Add New Task" color="blue" onClick={HandleButtonClick} />
+        <Button label="+ Add New Task" onClick={HandleButtonClick} />
       </div>
 
       {/* Table Container */}

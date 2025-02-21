@@ -29,14 +29,11 @@ const ProfileDetails = () => {
       </div>
 
       {/* Profile Actions */}
-      <div className="mt-6 space-x-4">
+      {/* <div className="mt-6 space-x-4">
         <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition-all rounded-lg text-white font-medium shadow-md">
           Edit Profile
         </button>
-        <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 transition-all rounded-lg text-white font-medium shadow-md">
-          Settings
-        </button>
-      </div>
+      </div> */}
     </div>
   );
 };
