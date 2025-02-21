@@ -2,23 +2,58 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user"); // Ensure the correct path to your User model
 const { authenticateJWT } = require("../middleware/authMiddleware");
+const Profile = require("../models/profile");
 
-// 🟢 Get user profile
-router.get("/:userId", authenticateJWT, async (req, res) => {
+
+router.post('/create', async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId).select("-password"); // Exclude password field
-        if (!user) return res.status(404).json({ message: "User not found" });
+        const { user, bio, profilePicture, achievements, completedTasks, streak, rewardPoints } = req.body;
 
-        res.json(user);
+        // Check if profile already exists for the user
+        const existingProfile = await Profile.findOne({ user });
+        if (existingProfile) {
+            return res.status(400).json({ message: 'Profile already exists for this user' });
+        }
+
+        // Create and save profile in one step
+        const newProfile = await Profile.create({
+            user,
+            bio,
+            profilePicture,
+            achievements,
+        });
+
+        res.status(201).json(newProfile);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching profile", error });
+        console.error(error); // Log error for debugging
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 });
 
-// 🟠 Update user profile
+router.get("/:userId", authenticateJWT, async (req, res) => {
+    try {
+        // Fetch the user details without password
+        const user = await User.findById(req.params.userId).select("-password");
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        // Fetch the profile details linked to the user
+        const profile = await Profile.findOne({ user: req.params.userId });
+
+        if (!profile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+
+        // Merge user and profile details in the response
+        res.json({ user, profile });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching profile", error: error.message });
+    }
+});
+
+
 router.patch("/:userId", authenticateJWT, async (req, res) => {
     try {
-        const { name, bio, profilePicture } = req.body; // Acceptable fields to update
+        const { name, bio, profilePicture } = req.body;
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId,
             { name, bio, profilePicture },

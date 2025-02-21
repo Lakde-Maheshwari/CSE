@@ -59,6 +59,7 @@ const Navbar = () => {
           <li><Link to="/" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faHome} className="mr-2" /> Home</Link></li>
           <li><Link to="/login" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faSignInAlt} className="mr-2" /> Login</Link></li>
           <li><Link to="/register" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUserPlus} className="mr-2" /> Sign Up</Link></li>
+          <li><Link to="/createprofile" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUserPlus} className="mr-2" /> Set up Profile</Link></li>
           {!isAuthenticated && (
             <li><Link to="/profile" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUser} className="mr-2" /> Profile</Link></li>
           )}

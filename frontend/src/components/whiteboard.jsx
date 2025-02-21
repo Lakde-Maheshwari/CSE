@@ -4,9 +4,9 @@ const Whiteboard = () => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("#ffffff"); // Default white brush for black canvas
   const [brushSize, setBrushSize] = useState(5);
-  const [fillColor,setFillColor] = useState("#000000");
+  const [isEraser, setIsEraser] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -16,13 +16,16 @@ const Whiteboard = () => {
     canvas.style.height = `${window.innerHeight}px`;
 
     const context = canvas.getContext("2d");
-    context.scale(2, 2); // Improve drawing quality
+    context.scale(2, 2);
     context.lineCap = "round";
     context.lineJoin = "round";
-    context.strokeStyle = color;
-    context.lineWidth = brushSize;
+
+    // Fill background black once (does not reset on color change)
+    context.fillStyle = "#000000";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
     contextRef.current = context;
-  }, [color, brushSize,fillColor]);
+  }, []); // ✅ Run only once to set up canvas
 
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
@@ -34,6 +37,9 @@ const Whiteboard = () => {
   const draw = ({ nativeEvent }) => {
     if (!isDrawing) return;
     const { offsetX, offsetY } = nativeEvent;
+
+    contextRef.current.strokeStyle = isEraser ? "#000000" : color; // ✅ Dynamic brush color
+    contextRef.current.lineWidth = brushSize;
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
   };
@@ -46,16 +52,9 @@ const Whiteboard = () => {
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  };
-
-  const fillCanvas = () => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.fillStyle = fillColor;
+    context.fillStyle = "#000000"; // ✅ Clears while keeping black background
     context.fillRect(0, 0, canvas.width, canvas.height);
   };
-
 
   return (
     <div className="h-screen w-screen flex flex-col fixed top-0 left-0">
@@ -63,16 +62,28 @@ const Whiteboard = () => {
       <div className="flex items-center bg-gray-800 p-4">
         <button
           onClick={clearCanvas}
-          className="p-2 bg-blue-700 text-white rounded-sm mr-3"
+          className="p-2 bg-red-700 text-white rounded-sm mr-3"
         >
           Clear
         </button>
+
+        <button
+          onClick={() => setIsEraser(!isEraser)}
+          className={`p-2 rounded-sm mr-3 ${
+            isEraser ? "bg-yellow-500 text-black" : "bg-white text-black"
+          }`}
+        >
+          {isEraser ? "Eraser Mode" : "Brush Mode"}
+        </button>
+
         <input
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
+          disabled={isEraser} // ✅ Disable color picker in eraser mode
           className="mr-3"
         />
+
         <input
           type="range"
           min="1"
@@ -80,16 +91,6 @@ const Whiteboard = () => {
           value={brushSize}
           onChange={(e) => setBrushSize(e.target.value)}
         />
-
-        <button className="p-3 m-3 bg-blue-500"
-        onClick={fillCanvas}> 
-        Fill color </button>
-        <input type="color" 
-        value={fillColor}
-        onChange={(e) => setFillColor(e.target.value)}
-        className="ml-2"
-        />
-        
       </div>
 
       {/* Canvas Section */}
@@ -108,3 +109,4 @@ const Whiteboard = () => {
 };
 
 export default Whiteboard;
+    

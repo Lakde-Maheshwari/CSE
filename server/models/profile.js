@@ -22,18 +22,6 @@ const profileSchema = new mongoose.Schema({
         date: { type: Date, default: Date.now },
         description: String
     }],
-    completedTasks: {
-        type: Number,
-        default: 0
-    },
-    streak: {
-        type: Number,
-        default: 0
-    },
-    rewardPoints: {
-        type: Number,
-        default: 0
-    }
 }, { timestamps: true });
 
 const Profile = mongoose.model('Profile', profileSchema);
