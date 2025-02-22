@@ -66,12 +66,17 @@ const LoginForm = () => {
             repeat: Infinity, // Keep moving continuously while hovered
           }}
           onMouseEnter={() => setShowText(true)}
+          onMouseLeave={() => setShowText(false)}
         />
       </div>
 
       {/* Right Side - Login Form */}
       <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-800 p-8">
         <div className="w-full max-w-md">
+          {/* <h2 className="text-white text-2xl font-bold text-center mb-4"> */}
+            {/* Welcome Back */}
+          {/* </h2> */}
+
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           <form onSubmit={HandleLogin} className="space-y-4">

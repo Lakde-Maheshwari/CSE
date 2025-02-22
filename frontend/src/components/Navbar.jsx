@@ -41,20 +41,17 @@ const Navbar = () => {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const getStrokeDasharray = () => {
-    const progress = (seconds % 60) / 60;
-    return `${progress * 283} 283`; // ✅ Enclosed in backticks
-  };
-  
-
   return (
     <nav className="bg-gray-800 text-white shadow-md w-screen">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        <div className="text-2xl font-bold">
-          <Link to="/home" className="hover:text-teal-400 transition duration-300">
-            EduHive
+      <div className="container mx-auto ml-2 flex justify-between items-center py-4 px-6">
+        {/* Logo and Brand Name */}
+        <div className="flex items-center ml-0">
+          <Link to="/home" className="flex items-center hover:text-teal-400 transition duration-300">
+            <img src="/wings logo.png" alt="EduHive Logo" className="h-14 w-14 rounded-md" />
+            <span className="text-2xl font-bold pl-2">EduHive</span>
           </Link>
         </div>
+
 
         <ul className="md:flex space-x-8 hidden md:items-center">
           <li><Link to="/" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faHome} className="mr-2" /> Home</Link></li>

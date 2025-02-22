@@ -1,5 +1,5 @@
 import './App.css'
-import React from 'react'
+// import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './components/Home.jsx'
@@ -35,12 +35,8 @@ function App() {
         <Route path='/poll' element={<Poll />} />
         <Route path='/videochat' element={<VideoChat />} />
         <Route path='/whiteboard' element={<Whiteboard />} />
-
-        
         <Route path='/createprofile' element={<ProfileForm />} />
         {/* <Route path='/join' element={<JoinMeeting />} /> */}
-
-
       </Routes>
     </div>
   )

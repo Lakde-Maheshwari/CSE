@@ -61,11 +61,8 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white w-full overflow-x-hidden">
       {/* Hero Section */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 w-full">
-        <h1 className="text-5xl font-bold mb-4 mt-4">Study Smarter, Together! 🚀</h1>
-        <p className="text-lg text-gray-300 mb-6 max-w-2xl">
-          Join collaborative study groups, stay consistent with daily streaks, and make learning interactive with AI-powered tools.
-        </p>
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 w-full mt-1">
+        <h1 className="text-5xl font-bold mb-4 mt-2">Study Smarter, Together! 🚀</h1>
         
         {/* Meeting Input Field with Scale-Up Animation */}
         <motion.div
@@ -80,7 +77,7 @@ const Home = () => {
             onChange={(e) => setMeetingLink(e.target.value)}
             onFocus={() => setIsFocused(true)} // Set focus state
             onBlur={() => setIsFocused(false)} // Reset focus state
-            className="w-full p-3 mb-4 text-white rounded-lg border border-gray-300 bg-gray-800 focus:outline-none transition-all"
+            className="w-full p-3 mb-7 text-white rounded-lg border border-gray-300 bg-gray-800 focus:outline-none transition-all"
           />
         </motion.div>
         
