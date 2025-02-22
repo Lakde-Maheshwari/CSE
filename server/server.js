@@ -3,6 +3,7 @@ const http = require("http");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const axios = require("axios");
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
 const authRoutes = require("./routes/authRoutes");
@@ -12,13 +13,8 @@ const rewardRoutes = require("./routes/rewardRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-<<<<<<< HEAD
-const groupRoutes = require("./routes/groupRoutes");
-=======
 const taskRoutes = require("./routes/taskRoutes");
 // const groupRoutes = require("./routes/groupRoutes");
-
->>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
 
 dotenv.config();
 connectDB();
@@ -33,24 +29,46 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-<<<<<<< HEAD
-app.use("/api/auth", authRoutes);
-app.use("/api/meeting", meetingRoutes);
-app.use("/api/rewards", rewardRoutes);
-app.use("/api/ai", aiRoutes);
-app.use("/api/leaderboard", leaderboardRoutes);
-app.use("/api/profile", profileRoutes);
-app.use("/api/groups", groupRoutes);
-=======
 app.use('/api/auth', authRoutes);
 app.use('/api/meeting', meetingRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/leaderboard', leaderboardRoutes); 
-app.use('/api/profile',profileRoutes);
-app.use('/api/task',taskRoutes);
-// app.use('/api/group',groupRoutes);
->>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
+app.use('/api/profile', profileRoutes);
+app.use('/api/task', taskRoutes);
+// app.use('/api/group', groupRoutes);
+
+
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+
+
+
+// DeepSeek API endpoint
+app.post('/api/deepseek', async (req, res) => {
+    const { prompt } = req.body;
+
+    try {
+        const response = await axios.post(
+            'https://api.deepseek.com/v1/chat/completions', // Replace with the actual DeepSeek API endpoint
+            {
+                prompt: prompt,
+                max_tokens: 150,
+                temperature: 0.7,
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error calling DeepSeek API:', error);
+        res.status(500).json({ error: 'Failed to fetch response from DeepSeek' });
+    }
+});
 
 const rooms = {}; // Store users in each video chat room
 
@@ -95,5 +113,3 @@ const PORT = process.env.PORT || 6471;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-app.use(express.json());
