@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Button from "./button";
 import { motion } from "framer-motion";
 
-const TaskForm = ({ onSubmit }) => {
+const TaskForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    status: "Completed",
+    status: "Pending",
   });
 
   const [message, setMessage] = useState(null); // For success/error messages
@@ -17,14 +17,17 @@ const TaskForm = ({ onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.date && formData.name) {
+    if (formData.title && formData.description) {
       try {
         const response = await fetch("http://localhost:6471/api/task/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...formData,
+            user: "67b931759c31d6d5df246313", // Hardcoded user ID for testing
+          }),
         });
 
         if (!response.ok) {
@@ -36,8 +39,7 @@ const TaskForm = ({ onSubmit }) => {
         setMessage({ type: "success", text: "Task added successfully!" });
 
         // Reset form after submission
-        setFormData({ title: "", description: "", status: "Completed" });
-        onSubmit(data); // Pass data to parent component
+        setFormData({ title: "", description: "", status: "Pending" });
       } catch (error) {
         console.error("Error submitting task:", error.message);
         setMessage({ type: "error", text: "Failed to add task. Try again!" });
@@ -69,11 +71,11 @@ const TaskForm = ({ onSubmit }) => {
 
           <div className="flex flex-col items-center">
             <label className="block text-white text-left w-3/4">
-              Date:
+              Title:
               <input
-                type="date"
-                name="date"
-                value={formData.date}
+                type="text"
+                name="title"
+                value={formData.title}
                 onChange={handleChange}
                 className="w-full mt-1 p-2 bg-gray-700 text-white border border-gray-600 rounded-md"
                 required
@@ -81,11 +83,10 @@ const TaskForm = ({ onSubmit }) => {
             </label>
 
             <label className="block text-white text-left w-3/4 mt-3">
-              Task Name:
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
+              Description:
+              <textarea
+                name="description"
+                value={formData.description}
                 onChange={handleChange}
                 className="w-full mt-1 p-2 bg-gray-700 text-white border border-gray-600 rounded-md"
                 required
@@ -101,7 +102,7 @@ const TaskForm = ({ onSubmit }) => {
                 className="w-full mt-1 p-2 bg-gray-700 text-white border border-gray-600 rounded-md"
               >
                 <option value="Pending">Pending</option>
-                <option value="Pursued">Pursued</option>
+                <option value="In-Progress">In-Progress</option>
                 <option value="Completed">Completed</option>
               </select>
             </label>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Button from "./button";
 import { motion } from "framer-motion";
+// import { login } from "../../../server/controllers/authControllers";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -20,16 +21,20 @@ const LoginForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const HandleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error before new attempt
-
+    setError(null);
+  
+    console.log("Login Payload Sent from Frontend:", formData); // Log formData before sending
+  
     try {
       const data = await loginUser(formData);
+      console.log("Login Response:", data); // Log backend response
       localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/"); // Redirect to home
+      navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      console.error("Login Error:", err.response?.data || err.message);
+      setError(err.response?.data?.message || err.message || "Invalid credentials");
     }
   };
 
@@ -79,7 +84,7 @@ const LoginForm = () => {
 
           {error && <p className="text-red-500 text-center">{error}</p>}
 
-          <form onSubmit={HandleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <input
                 type="text"

@@ -18,8 +18,18 @@ const Navbar = () => {
   useEffect(() => {
     if (isTimerActive) {
       const id = setInterval(() => {
-        setSeconds((prev) => prev + 1);
+        setSeconds((prev) => {
+          if ((prev + 1) % 60 === 0) {
+            setCoinCount((coins) => {
+              const newCoinCount = coins + 1;
+              localStorage.setItem("coinCount", newCoinCount); // Store in localStorage
+              return newCoinCount;
+            });
+          }
+          return prev + 1;
+        });
       }, 1000);
+      
       setIntervalId(id);
       return () => clearInterval(id);
     }

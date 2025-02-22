@@ -18,10 +18,6 @@ const UserSchema = new mongoose.Schema({
          type: String,
           required: true
          },
-    rewardPoints: { 
-        type: Number, 
-        default: 0 
-    },
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

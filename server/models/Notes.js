@@ -9,14 +9,9 @@ const noteSchema = new mongoose.Schema({
     type: String, 
     required: true 
 },
-  owner: { 
+  user: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
-    required: true
- },
-  group: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Group', 
     required: false 
 },
   createdAt: { 

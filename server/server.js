@@ -12,13 +12,10 @@ const rewardRoutes = require("./routes/rewardRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-<<<<<<< HEAD
-const groupRoutes = require("./routes/groupRoutes");
-=======
 const taskRoutes = require("./routes/taskRoutes");
 // const groupRoutes = require("./routes/groupRoutes");
+const noteRoutes = require("./routes/notesRoutes");
 
->>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
 
 dotenv.config();
 connectDB();
@@ -32,16 +29,14 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+    cors({
+      origin: "http://localhost:5173", // Frontend URL
+      credentials: true, // Allow cookies if using authentication
+    })
+);
 
-<<<<<<< HEAD
-app.use("/api/auth", authRoutes);
-app.use("/api/meeting", meetingRoutes);
-app.use("/api/rewards", rewardRoutes);
-app.use("/api/ai", aiRoutes);
-app.use("/api/leaderboard", leaderboardRoutes);
-app.use("/api/profile", profileRoutes);
-app.use("/api/groups", groupRoutes);
-=======
 app.use('/api/auth', authRoutes);
 app.use('/api/meeting', meetingRoutes);
 app.use('/api/rewards', rewardRoutes);
@@ -49,8 +44,8 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/leaderboard', leaderboardRoutes); 
 app.use('/api/profile',profileRoutes);
 app.use('/api/task',taskRoutes);
+app.use('/api/notes',noteRoutes);
 // app.use('/api/group',groupRoutes);
->>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
 
 const rooms = {}; // Store users in each video chat room
 
