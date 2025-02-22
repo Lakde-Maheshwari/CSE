@@ -80,7 +80,7 @@ const Signup = () => {
           />
 
           {/* ✅ `to="#"` prevents unwanted navigation, `onClick` handles the form submission */}
-          <Button label="Create Account" to="/" onClick={handleSubmit} />
+          <Button label="Create Account" to="/login" onClick={handleSubmit} />
         </form>
 
         <p className="text-center text-gray-400 mt-4">

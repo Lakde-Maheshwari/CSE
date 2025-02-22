@@ -3,7 +3,7 @@
 // import io from "socket.io-client";
 // import Peer from "simple-peer";
 
-// const socket = io("http://localhost:5000");
+// const socket = io("http://localhost:6471");
 
 // const JoinMeeting = () => {
 //     const { meetingId } = useParams();

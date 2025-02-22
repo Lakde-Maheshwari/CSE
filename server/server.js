@@ -12,7 +12,13 @@ const rewardRoutes = require("./routes/rewardRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const profileRoutes = require("./routes/profileRoutes");
+<<<<<<< HEAD
 const groupRoutes = require("./routes/groupRoutes");
+=======
+const taskRoutes = require("./routes/taskRoutes");
+// const groupRoutes = require("./routes/groupRoutes");
+
+>>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
 
 dotenv.config();
 connectDB();
@@ -27,6 +33,7 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 app.use("/api/auth", authRoutes);
 app.use("/api/meeting", meetingRoutes);
 app.use("/api/rewards", rewardRoutes);
@@ -34,6 +41,16 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/groups", groupRoutes);
+=======
+app.use('/api/auth', authRoutes);
+app.use('/api/meeting', meetingRoutes);
+app.use('/api/rewards', rewardRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/leaderboard', leaderboardRoutes); 
+app.use('/api/profile',profileRoutes);
+app.use('/api/task',taskRoutes);
+// app.use('/api/group',groupRoutes);
+>>>>>>> 9edc319c0654d97a90eb09fd966aa907adcef59d
 
 const rooms = {}; // Store users in each video chat room
 
@@ -78,3 +95,5 @@ const PORT = process.env.PORT || 6471;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+app.use(express.json());

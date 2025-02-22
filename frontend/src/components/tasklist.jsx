@@ -8,9 +8,10 @@ const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:6471/api/tasks")
-      .then(response => setTasks(response.data))
-      .catch(error => console.error("Error fetching tasks:", error));
+    axios
+      .get("http://localhost:6471/api/task")
+      .then((response) => setTasks(response.data))
+      .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
 
   const handleButtonClick = () => {
@@ -18,15 +19,17 @@ const TaskList = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:6471/api/tasks/${id}`)
-      .then(() => setTasks(tasks.filter(task => task._id !== id)))
-      .catch(error => console.error("Error deleting task:", error));
+    axios
+      .delete(`http://localhost:6471/api/task/${id}`)
+      .then(() => setTasks(tasks.filter((task) => task._id !== id)))
+      .catch((error) => console.error("Error deleting task:", error));
   };
 
+  // Correcting status colors (handling lowercase)
   const statusColors = {
-    Completed: "text-green-400",
-    Pursued: "text-orange-400",
-    Pending: "text-red-400",
+    completed: "text-green-400",
+    pursued: "text-orange-400",
+    pending: "text-red-400",
   };
 
   return (
@@ -44,7 +47,7 @@ const TaskList = () => {
             <tr className="bg-gray-700 text-gray-300">
               <th className="border border-gray-600 p-3 text-left">Date</th>
               <th className="border border-gray-600 p-3 text-left">Status</th>
-              <th className="border border-gray-600 p-3 text-left">Task Name</th>
+              <th className="border border-gray-600 p-3 text-left">Task Title</th>
               <th className="border border-gray-600 p-3 text-left">Actions</th>
             </tr>
           </thead>
@@ -54,13 +57,17 @@ const TaskList = () => {
                 key={task._id}
                 className="border border-gray-700 bg-gray-800 hover:bg-gray-700 transition duration-300"
               >
-                <td className="border border-gray-600 p-3">{task.date}</td>
-                <td
-                  className={`border border-gray-600 p-3 font-semibold ${statusColors[task.status]}`}
-                >
-                  {task.status}
+                <td className="border border-gray-600 p-3">
+                  {new Date(task.createdAt).toLocaleDateString()} {/* Convert ISO Date */}
                 </td>
-                <td className="border border-gray-600 p-3">{task.name}</td>
+                <td
+                  className={`border border-gray-600 p-3 font-semibold ${
+                    statusColors[task.status.toLowerCase()] || "text-gray-400"
+                  }`}
+                >
+                  {task.status.charAt(0).toUpperCase() + task.status.slice(1)} {/* Capitalize */}
+                </td>
+                <td className="border border-gray-600 p-3">{task.title}</td>
                 <td className="border border-gray-600 p-3">
                   <button
                     onClick={() => handleDelete(task._id)}
@@ -73,6 +80,8 @@ const TaskList = () => {
             ))}
           </tbody>
         </table>
+
+        {tasks.length === 0 && <p className="text-gray-400 mt-4">No tasks found.</p>}
       </div>
     </div>
   );

@@ -16,6 +16,4 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-module.exports = { authenticateJWT };
-
-//module.exports = authenticateJWT; // ✅ Make sure it's exported correctly
+module.exports = { authenticateJWT }; // Export as an object

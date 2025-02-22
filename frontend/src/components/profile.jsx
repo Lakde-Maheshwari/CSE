@@ -1,4 +1,3 @@
-import React from "react";
 import TaskList from "./tasklist";
 // import CircularProgressTrackers from "./progresstrackers";
 import ContactInfo from "./contactInfo";
@@ -9,12 +8,12 @@ import TestimonialFooter from "./Footer";
 
 const Profile = () => {
   return (
-    <div className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <div className="flex h-auto w-screen overflow-hidden bg-gray-900 text-white">
       <Sidebar />
-      <div className="flex flex-col w-3/4 p-6 space-y-6">
+      <div className="flex flex-col w-3/4 p-4">
         <Header />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-gray-700 bg-gray-800 rounded-xl shadow-2xl">
-          <div className="p-6  flex flex-col items-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 m-4 border border-gray-700 h-full bg-gray-800 rounded-lg shadow-lg">
+          <div className="p-6 bg-gray-700 flex flex-col items-center rounded-lg shadow-md">
             <ProfileDetails />
             <ContactInfo />
           </div>

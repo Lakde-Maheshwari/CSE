@@ -1,8 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const Group = require('../models/Group');
-const { authenticateJWT } = require('../middleware/authMiddleware');
+const authenticateJWT = require('../middleware/authMiddleware');
 
 
 router.post('/create', authenticateJWT, async (req, res) => {

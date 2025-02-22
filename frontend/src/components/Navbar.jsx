@@ -43,15 +43,16 @@ const Navbar = () => {
 
   const getStrokeDasharray = () => {
     const progress = (seconds % 60) / 60;
-    return `${progress * 283} 283`;
+    return `${progress * 283} 283`; // ✅ Enclosed in backticks
   };
+  
 
   return (
     <nav className="bg-gray-800 text-white shadow-md w-screen">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         <div className="text-2xl font-bold">
           <Link to="/home" className="hover:text-teal-400 transition duration-300">
-            My App
+            EduHive
           </Link>
         </div>
 

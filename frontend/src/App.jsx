@@ -15,11 +15,8 @@ import GroupResources from './components/groupResources.jsx'
 import TaskForm from './components/taskform.jsx'
 import Poll from './components/Poll.jsx'
 import VideoChat from './components/videochat'
-
-
-
-
-
+import ProfileForm from './components/ProfileForm.jsx'
+// import JoinMeeting from './components/JoinMeeting.jsx'
 function App() {
   return (
     <div className='App'>
@@ -40,6 +37,10 @@ function App() {
         <Route path='/whiteboard' element={<Whiteboard />} />
 
         
+        <Route path='/createprofile' element={<ProfileForm />} />
+        {/* <Route path='/join' element={<JoinMeeting />} /> */}
+
+
       </Routes>
     </div>
   )

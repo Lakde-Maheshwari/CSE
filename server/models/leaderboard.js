@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const leaderboardSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',  // Reference to the User model
+        ref: 'user',  // Reference to the User model
         required: true,
         unique: true   // Ensure each user appears only once
     },

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user', // Linking to the User model
+        ref: 'user',
         required: true,
         unique: true
     },
@@ -13,7 +13,7 @@ const profileSchema = new mongoose.Schema({
         default: ''
     },
     profilePicture: {
-        type: String, // URL to the profile picture
+        type: String, 
         default: ''
     },
     
@@ -22,18 +22,6 @@ const profileSchema = new mongoose.Schema({
         date: { type: Date, default: Date.now },
         description: String
     }],
-    completedTasks: {
-        type: Number,
-        default: 0
-    },
-    streak: {
-        type: Number,
-        default: 0
-    },
-    rewardPoints: {
-        type: Number,
-        default: 0
-    }
 }, { timestamps: true });
 
 const Profile = mongoose.model('Profile', profileSchema);

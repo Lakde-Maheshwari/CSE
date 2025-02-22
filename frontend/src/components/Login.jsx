@@ -12,6 +12,7 @@ const LoginForm = () => {
   });
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showText, setShowText] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,11 +36,24 @@ const LoginForm = () => {
   return (
     <div className="flex min-h-screen w-screen">
       {/* Left Side - Robot Image */}
-      <div className="hidden md:flex w-1/2 items-center justify-center bg-gray-800">
+      <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-gray-800 relative">
+        {showText && (
+          <motion.h1
+            className="absolute top-12 right-16 text-white font-extrabold text-4xl md:text-5xl lg:text-6xl font-serif tracking-wide"
+            style={{
+              textShadow: "0px 0px 12px rgba(255,255,255,0.9), 0px 0px 20px rgba(255,255,255,0.6)", // Strong Glow Effect
+            }}
+            initial={{ opacity: 0, scale: 0.5, x: -20 }}
+            animate={{ opacity: 1, scale: 1.05, x: 20 }}
+            transition={{ duration: 0.5 }}
+          >
+            Welcome to Study Bot
+          </motion.h1>
+        )}
         <motion.img
           src="/Chatbot image.png"
           alt="Robot"
-          className="w-1/2 max-h-[80%] object-contain"
+          className="w-1/2 max-h-[80%] object-contain cursor-pointer"
           whileHover={{
             rotateX: [0, 15, -15, 10, -10, 0], // Tilt forward & backward
             rotateY: [0, 10, -10, 5, -5, 0], // Rotate side to side
@@ -51,16 +65,13 @@ const LoginForm = () => {
             ease: "easeInOut",
             repeat: Infinity, // Keep moving continuously while hovered
           }}
+          onMouseEnter={() => setShowText(true)}
         />
       </div>
 
       {/* Right Side - Login Form */}
       <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-800 p-8">
         <div className="w-full max-w-md">
-          <h2 className="text-white text-2xl font-bold text-center mb-4">
-            Welcome Back
-          </h2>
-
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           <form onSubmit={HandleLogin} className="space-y-4">
