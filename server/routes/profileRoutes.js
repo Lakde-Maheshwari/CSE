@@ -7,7 +7,7 @@ const Profile = require("../models/profile");
 
 router.post('/create', async (req, res) => {
     try {
-        const { user, bio, profilePicture, achievements, completedTasks, streak, rewardPoints } = req.body;
+        const { user, bio, profilePicture, achievements} = req.body;
 
         // Check if profile already exists for the user
         const existingProfile = await Profile.findOne({ user });

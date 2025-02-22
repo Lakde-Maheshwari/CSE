@@ -18,7 +18,7 @@ const taskSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user', // Reference to the User model
+        ref: 'User', // Reference to the User model
         required: true
     }
 }, { timestamps: true });

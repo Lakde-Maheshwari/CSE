@@ -12,8 +12,9 @@ const rewardRoutes = require('./routes/rewardRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes'); // ✅ Import leaderboard routes
 const profileRoutes = require("./routes/profileRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+// const groupRoutes = require("./routes/groupRoutes");
 
-const Leaderboard = require('./models/leaderboard'); // ✅ Import the leaderboard model
 
 dotenv.config();
 connectDB();
@@ -34,6 +35,8 @@ app.use('/api/rewards', rewardRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/leaderboard', leaderboardRoutes); 
 app.use('/api/profile',profileRoutes);
+app.use('/api/task',taskRoutes);
+// app.use('/api/group',groupRoutes);
 
 
 const polls = {}; // Store polls for each room
@@ -84,3 +87,5 @@ const PORT = process.env.PORT || 6471;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+app.use(express.json());

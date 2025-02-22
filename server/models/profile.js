@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user', // Linking to the User model
+        ref: 'user',
         required: true,
         unique: true
     },
@@ -13,7 +13,7 @@ const profileSchema = new mongoose.Schema({
         default: ''
     },
     profilePicture: {
-        type: String, // URL to the profile picture
+        type: String, 
         default: ''
     },
     

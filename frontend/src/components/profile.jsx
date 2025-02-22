@@ -7,24 +7,24 @@ import Header from "./header";
 import Sidebar from "./sidebar";
 import TestimonialFooter from "./Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const API_BASE_URL = "http://localhost:6471/api/profile";
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const token = localStorage.getItem("token");
-  const userData = localStorage.getItem("user");
-
-  const user = userData ? JSON.parse(userData) : null;
-  const userId = user ? user._id : null;
+  const navigate = useNavigate(); // For redirection
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+    const user = userData ? JSON.parse(userData) : null;
+    const userId = user ? user._id : null;
+
     if (!userId || !token) {
       console.error("User is not authenticated");
-      setError("User is not authenticated. Please log in.");
-      setLoading(false);
+      navigate("/login"); // Redirect immediately
       return;
     }
 
@@ -36,14 +36,25 @@ const Profile = () => {
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
-        setError("Failed to fetch profile. Please try again later.");
+
+        if (error.response) {
+          if (error.response.status === 401) {
+            navigate("/login"); // Redirect immediately if session expired
+          } else if (error.response.status === 404) {
+            setError("Profile not found. Please create one.");
+          } else {
+            setError("Failed to fetch profile. Try again later.");
+          }
+        } else {
+          setError("Network error. Check your connection.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchProfile();
-  }, [userId, token]);
+  }, [navigate]); // Only re-run on mount
 
   return (
     <div className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 text-white">
@@ -53,14 +64,19 @@ const Profile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-gray-700 bg-gray-800 rounded-xl shadow-2xl">
           <div className="p-6 flex flex-col items-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow">
             {loading ? (
-              <p>Loading profile...</p>
+              <div className="text-center">
+                <p className="animate-spin text-xl">🔄 Loading profile...</p>
+              </div>
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : profile ? (
-              <ProfileDetails user={user} profile={profile} />
+              <ProfileDetails user={JSON.parse(localStorage.getItem("user"))} profile={profile} />
             ) : (
               <p>
-                Profile not found. <a href="/createprofile" className="text-blue-400 underline">Create profile</a>
+                Profile not found.{" "}
+                <a href="/createprofile" className="text-blue-400 underline">
+                  Create profile
+                </a>
               </p>
             )}
             <ContactInfo />

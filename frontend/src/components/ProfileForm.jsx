@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const ProfileForm = ({ onSubmit }) => {
+  const [error, setError] = useState(null);
   const [profile, setProfile] = useState({
     bio: "",
     profilePicture: "",
@@ -10,10 +11,12 @@ const ProfileForm = ({ onSubmit }) => {
     achievementDescription: ""
   });
 
+  // Handle Input Change
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
+  // Handle Adding Achievements
   const handleAddAchievement = () => {
     if (profile.achievementTitle && profile.achievementDescription) {
       setProfile({
@@ -23,37 +26,55 @@ const ProfileForm = ({ onSubmit }) => {
           {
             title: profile.achievementTitle,
             description: profile.achievementDescription,
-            date: new Date().toISOString()
-          }
+            date: new Date().toISOString(),
+          },
         ],
         achievementTitle: "",
-        achievementDescription: ""
+        achievementDescription: "",
       });
     }
   };
 
+  // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const token = localStorage.getItem("authToken"); // Assuming you store auth token
+      const token = localStorage.getItem("authToken"); // Get auth token
+      const user = localStorage.getItem("userId"); // Get user ID
+      if (!token) {
+        setError("Authentication error. Please log in again.");
+        console.error("❌ No auth token found.");
+        return;
+      }
+
+      // Prepare Data
+      const requestData = {
+        user : user,
+        bio: profile.bio,
+        profilePicture: profile.profilePicture || "", // Avoid undefined
+        achievements: profile.achievements,
+      };
+
+      console.log("📤 Sending data:", requestData);
+
+      // API Call
       const response = await axios.post(
-        "http:localhost:6471/api/profile/create",
-        {
-          bio: profile.bio,
-          profilePicture: profile.profilePicture,
-          achievements: profile.achievements
-        },
+        "http://localhost:6471/api/profile/create",
+        requestData,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token if needed
-            "Content-Type": "application/json"
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
-      console.log("Profile updated:", response.data);
-      onSubmit(response.data); // Call parent function if needed
+
+      console.log("✅ Profile updated successfully:", response.data);
+      setError(null); // Clear any previous errors
     } catch (error) {
-      console.error("Error updating profile:", error.response?.data || error);
+      console.error("❌ Error updating profile:", error.response?.data || error);
+      setError(error.response?.data?.message || "Profile update failed.");
     }
   };
 
@@ -61,6 +82,7 @@ const ProfileForm = ({ onSubmit }) => {
     <div className="flex items-center justify-center h-screen bg-gray-950">
       <div className="max-w-lg w-full p-6 bg-gray-900 shadow-lg rounded-lg text-white">
         <h2 className="text-2xl font-bold mb-4">Update Profile</h2>
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-semibold">Bio</label>
@@ -119,7 +141,7 @@ const ProfileForm = ({ onSubmit }) => {
             </div>
           </div>
 
-          <button onClick={console.log("submitted successfully")}  type="submit" className="w-full p-2 bg-green-500 text-white rounded-md">
+          <button type="submit" className="w-full p-2 bg-green-500 text-white rounded-md">
             Save Profile
           </button>
         </form>

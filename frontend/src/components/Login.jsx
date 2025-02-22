@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import axios from "axios";
 import Button from "./button";
 import { motion } from "framer-motion";
 
@@ -10,25 +10,43 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
 
+  // Handles input field changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value.trim() }); // Trim to avoid accidental spaces
   };
 
-  const HandleLogin = async (e) => {
-    e.preventDefault();
-    setError(""); // Reset error before new attempt
+  // Handles login request
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent page reload
+
+    console.log("📤 Sending Login Request:", formData); // Debugging input
 
     try {
-      const data = await loginUser(formData);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/"); // Redirect to home
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      const response = await axios.post("http://localhost:6471/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      console.log("✅ Login successful:", response.data);
+
+      const { token, user } = response.data;
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userId", user._id);
+
+      navigate("/"); // Redirect after login
+    } catch (error) {
+      console.error("❌ Login failed:", error.response?.data || error);
+
+      // Show detailed error message
+      setError(
+        error.response?.data?.message ||
+        "Invalid credentials. Please check your email & password."
+      );
     }
   };
 
@@ -47,9 +65,9 @@ const LoginForm = () => {
             filter: "drop-shadow(0px 0px 15px rgba(255,255,255,0.6))",
           }}
           transition={{
-            duration: 1.5, // Smooth looping effect
+            duration: 1.5,
             ease: "easeInOut",
-            repeat: Infinity, // Keep moving continuously while hovered
+            repeat: Infinity, // Continuous motion
           }}
         />
       </div>
@@ -63,11 +81,12 @@ const LoginForm = () => {
 
           {error && <p className="text-red-500 text-center">{error}</p>}
 
-          <form onSubmit={HandleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <input
                 type="text"
                 name="email"
+                value={formData.email}
                 className="w-full p-3 border rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Email"
                 onChange={handleChange}
@@ -78,6 +97,7 @@ const LoginForm = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                value={formData.password}
                 placeholder="Password"
                 className="w-full p-3 border rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
                 onChange={handleChange}
