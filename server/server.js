@@ -3,6 +3,7 @@ const http = require("http");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const axios = require("axios");
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
 const authRoutes = require("./routes/authRoutes");
@@ -14,8 +15,6 @@ const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 // const groupRoutes = require("./routes/groupRoutes");
-const noteRoutes = require("./routes/notesRoutes");
-
 
 dotenv.config();
 connectDB();
@@ -90,5 +89,3 @@ const PORT = process.env.PORT || 6471;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-app.use(express.json());

@@ -1,5 +1,4 @@
 import './App.css'
-// import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './components/Home.jsx'
@@ -16,11 +15,13 @@ import TaskForm from './components/taskform.jsx'
 import Poll from './components/Poll.jsx'
 import VideoChat from './components/videochat'
 import ProfileForm from './components/ProfileForm.jsx'
-// import JoinMeeting from './components/JoinMeeting.jsx'
+import DeepSeekComponent from './components/DeepSeekComponent';
+
 function App() {
   return (
     <div className='App'>
       <Navbar />
+      <DeepSeekComponent />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<LoginForm />} />
@@ -36,10 +37,9 @@ function App() {
         <Route path='/videochat' element={<VideoChat />} />
         <Route path='/whiteboard' element={<Whiteboard />} />
         <Route path='/createprofile' element={<ProfileForm />} />
-        {/* <Route path='/join' element={<JoinMeeting />} /> */}
       </Routes>
     </div>
   )
 }
 
-export default App
+export default App;
