@@ -26,7 +26,6 @@ const io = new Server(server, {
 });
 
 app.use(express.json());
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -43,7 +42,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/leaderboard', leaderboardRoutes); 
 app.use('/api/profile',profileRoutes);
 app.use('/api/task',taskRoutes);
-app.use('/api/notes',noteRoutes);
+// app.use('/api/notes',noteRoutes);
 // app.use('/api/group',groupRoutes);
 
 const rooms = {}; // Store users in each video chat room

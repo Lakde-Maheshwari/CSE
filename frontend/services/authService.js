@@ -8,19 +8,12 @@ export const registerUser = async (userData) => {
     return response.data;
 };
 
+
 export const loginUser = async (formData) => {
-    const response = await fetch("http://localhost:6471/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-      credentials: "include", // Required if using cookies/sessions
+    const response = await axios.post(`${API_URL}/login`, formData, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true, // Important for authentication
     });
   
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-  
-    return response.json();
+    return response.data;
   };
