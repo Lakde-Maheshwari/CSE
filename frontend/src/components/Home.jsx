@@ -89,7 +89,7 @@ const Home = () => {
           {/* Create Meeting Button */}
             <Button label={loading ? "Creating..." : "Create New Meet +"} onClick={handleCreateMeeting} to={"/join"}/>
           {/* Join Meeting Button */}
-            <Button label="Join" onClick={handleJoinMeet} to={"/join"}/>
+            <Button label="Join" onClick={handleJoinMeet} to={"/videochat"}/>
         </div>
         
         {/* Features Section */}

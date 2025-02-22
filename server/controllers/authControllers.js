@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+
 const register = async (req, res) => {
   const { username, email, password } = req.body;
   
@@ -14,7 +15,7 @@ const register = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
     
-    const token = jwt.sign({ userId: newUser._id }, 'yourSecretKey', { expiresIn: '1h' });
+    const token = jwt.sign({ id: newUser._id }, 'yourSecretKey', { expiresIn: '1h' });
     res.status(201).send({ token });
   } catch (error) {
     res.status(500).send("Server Error");
@@ -37,5 +38,6 @@ const login = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 
 module.exports = { register, login };

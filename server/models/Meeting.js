@@ -11,11 +11,6 @@ const MeetingSchema = new mongoose.Schema({
         ref: 'user', 
         required: true 
     },
-   
-    expiresAt: { 
-        type: Date, 
-        required: true 
-    },
 });
 
 module.exports = mongoose.model('Meeting', MeetingSchema);

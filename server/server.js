@@ -1,19 +1,18 @@
-const express = require('express');
-const http = require('http');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const { Server } = require('socket.io');
-const authRoutes = require('./routes/authRoutes');
-const connectDB = require('./config/db');
-const meetingRoutes = require('./routes/meetingRoutes');
-const rewardRoutes = require('./routes/rewardRoutes');
-const aiRoutes = require('./routes/aiRoutes');
-const leaderboardRoutes = require('./routes/leaderboardRoutes'); // ✅ Import leaderboard routes
+const express = require("express");
+const http = require("http");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
+const authRoutes = require("./routes/authRoutes");
+const connectDB = require("./config/db");
+const meetingRoutes = require("./routes/meetingRoutes");
+const rewardRoutes = require("./routes/rewardRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-
-const Leaderboard = require('./models/leaderboard'); // ✅ Import the leaderboard model
+const groupRoutes = require("./routes/groupRoutes");
 
 dotenv.config();
 connectDB();
@@ -21,62 +20,57 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: { origin: "*" },
 });
 
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/meeting', meetingRoutes);
-app.use('/api/rewards', rewardRoutes);
-app.use('/api/ai', aiRoutes);
-app.use('/api/leaderboard', leaderboardRoutes); 
-app.use('/api/profile',profileRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/meeting", meetingRoutes);
+app.use("/api/rewards", rewardRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/groups", groupRoutes);
 
+const rooms = {}; // Store users in each video chat room
 
-const polls = {}; // Store polls for each room
-
-// ✅ Function to update leaderboard when user points or streak change
-async function updateLeaderboard(userId) {
-    try {
-        await Leaderboard.updateLeaderboard();
-        console.log(`Leaderboard updated for user ${userId}`);
-    } catch (error) {
-        console.error("Error updating leaderboard:", error);
-    }
-}
-
-// Real-time communication setup
-io.on('connection', (socket) => {
+// WebRTC Signaling with Socket.io
+io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
-    socket.on('joinRoom', ({ roomId, username }) => {
+    socket.on("joinRoom", ({ roomId, username }) => {
         socket.join(roomId);
         console.log(`${username} joined room: ${roomId}`);
-        io.to(roomId).emit('notification', `${username} has joined the room`);
+
+        if (!rooms[roomId]) {
+            rooms[roomId] = [];
+        }
+        rooms[roomId].push({ id: socket.id, username });
+
+        // Notify all users in the room about the new user
+        io.to(roomId).emit("userJoined", { id: socket.id, username });
+
+        // Send the updated user list to everyone in the room
+        io.to(roomId).emit("updateUserList", rooms[roomId]);
     });
 
-    socket.on('createPoll', ({ roomId, question, options }) => {
-        const poll = {
-            question,
-            options: options.map(option => ({ text: option, votes: 0 })),
-        };
-        console.log(`Poll created in room ${roomId}:`, poll);
-        io.to(roomId).emit('pollCreated', poll);
+    // WebRTC signaling: offer, answer, ICE candidates
+    socket.on("signal", (data) => {
+        io.to(data.to).emit("signal", { from: socket.id, ...data });
     });
 
-    socket.on('vote', ({ roomId, optionIndex }) => {
-        io.to(roomId).emit('pollUpdated', optionIndex);
-    });
-
-    socket.on('endPoll', ({ roomId }) => {
-        io.to(roomId).emit('pollEnded', { message: 'Poll has ended!' });
-    });
-
-    socket.on('disconnect', () => {
+    // User leaves the room
+    socket.on("disconnect", () => {
         console.log(`User disconnected: ${socket.id}`);
+
+        // Remove the user from all rooms
+        for (const roomId in rooms) {
+            rooms[roomId] = rooms[roomId].filter(user => user.id !== socket.id);
+            io.to(roomId).emit("updateUserList", rooms[roomId]);
+        }
     });
 });
 
