@@ -43,15 +43,16 @@ const Navbar = () => {
 
   const getStrokeDasharray = () => {
     const progress = (seconds % 60) / 60;
-    return `${progress * 283} 283`;
+    return `${progress * 283} 283`; // ✅ Enclosed in backticks
   };
+  
 
   return (
     <nav className="bg-gray-800 text-white shadow-md w-screen">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         <div className="text-2xl font-bold">
           <Link to="/home" className="hover:text-teal-400 transition duration-300">
-            My App
+            EduHive
           </Link>
         </div>
 
@@ -59,7 +60,6 @@ const Navbar = () => {
           <li><Link to="/" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faHome} className="mr-2" /> Home</Link></li>
           <li><Link to="/login" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faSignInAlt} className="mr-2" /> Login</Link></li>
           <li><Link to="/register" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUserPlus} className="mr-2" /> Sign Up</Link></li>
-          <li><Link to="/createprofile" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUserPlus} className="mr-2" /> Set up Profile</Link></li>
           {!isAuthenticated && (
             <li><Link to="/profile" className="flex items-center hover:text-teal-400 transition duration-300"><FontAwesomeIcon icon={faUser} className="mr-2" /> Profile</Link></li>
           )}
